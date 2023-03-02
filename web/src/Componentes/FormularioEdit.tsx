@@ -66,7 +66,7 @@ export default function FormDialog(
        return res
     }
   );
-console.log(open.id,'es por aca')
+
 function onSudmit() {
  mutation.mutate()
 }

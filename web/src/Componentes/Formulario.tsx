@@ -119,8 +119,7 @@ export const DataGridDemo = () => {
 
 
  
- console.log(rows1)
- console.log(id)
+
   const columns: GridColDef[] = [
     {
       field: "Print",
