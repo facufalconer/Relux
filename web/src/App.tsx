@@ -1,20 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import InputWithIcon from './Componentes/Login';
-
-
-
-import {  useQuery } from 'react-query'
 import {DataGridDemo }from './Componentes/Formulario';
-
+import { Routes,Route} from "react-router-dom";
+import Layout from './Componentes/Layout';
+import InputWithIcon from './Componentes/Login';
 
 function App() {
 
   return (
    
     <div style={{backgroundColor:'pink'}} >
-   <DataGridDemo/>
+      <Routes>
+        <Route path='/Login' element={<InputWithIcon/>}/>
+        <Route path='/Formulario' element={<DataGridDemo/>}/>
+
+        
+      </Routes>
+   {/* <DataGridDemo/> */}
     </div>
 
   );

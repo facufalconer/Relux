@@ -9,8 +9,9 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import Button from '@mui/material/Button';
 import bar from'../Imagen/24320.jpg'
-import { width } from "@mui/system";
 import {  styled } from '@mui/material/styles';
+import { Outlet, Link } from "react-router-dom";
+
 
 
 const ValidationTextField = styled(TextField)({
@@ -104,10 +105,16 @@ export default function InputWithIcon() {
           </div>
           <div style={{marginTop:70, }}>
           <Button variant="contained"size="small">Reguistrar</Button>
-          <Button variant="contained"size="small"style={{marginLeft:15}}>Confirmar</Button>
+          
+          <Link to="/Formulario">
+          <Button variant="contained"size="small"style={{marginLeft:15,zIndex:1}} >
+          Confirmar</Button>
+          </Link>
+           
           </div>
         </div>
       </div>
+      <Outlet/>
     </div>
   );
 }

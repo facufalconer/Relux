@@ -8,18 +8,21 @@ import {
   QueryClientProvider,
   useQuery,
 } from 'react-query'
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 const queryClient = new QueryClient()
 root.render(
-  // <React.StrictMode>
+   <React.StrictMode>
+    <BrowserRouter>
     <QueryClientProvider client={queryClient}>
 
     <App />
     </QueryClientProvider>
-  // </React.StrictMode>
+    </BrowserRouter>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

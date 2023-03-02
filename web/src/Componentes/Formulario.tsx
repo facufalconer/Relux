@@ -15,40 +15,6 @@ import { useQuery } from 'react-query'
 import { getPostById } from './Apis/GetPosr';
 import SimpleDialog from './FormularioPost';
 
-
-
-// const { data } = useQuery( () =>
-// getPostById({
-//       method: 'get',
-//       url: 'Informe/v1/GetInformeEntradas',
-//       // params: {
-//       //   id: selectedRowId,
-//       //   entrada: equipo1?.Id,
-//       //   fromDate: fromDate,
-//       //   toDate: toDate,
-//       //   returnType: 'json',
-//       // },
-  
-//     }),
-
-// );
-
-
-// React.useEffect(() => {
-//   const get = () => {
-//    fetch('http://localhost:8000/api/usuarios') 
-//    .then(res => res.json())
-//    .then(res => setData(res))
-//   }
-//   get()
-//  }, [])
-
-// const  fetchPlanets = async () => {
-//   const res = await fetch('http://localhost:8000/api/usuarios')
-//   return res.json()
-// }
-
-
 export const DataGridDemo = () => {
   const [Value, setValue] = useState()
   const [forValue, setForValue] = useState({
@@ -65,30 +31,10 @@ export const DataGridDemo = () => {
    
    })
 
-//  React.useEffect(() => {
-//  const get = () => {
-//    fetch('http://localhost:8000/api/usuarios/11') 
-//    .then(res => res.json())
-//    .then(res =>setForValue((prev) => ({
-//     ...prev,
-//     nombre:res.nombre,
-//     email:res.email
-//    })))
-//   }
- const Delete = () => {
-    axios.delete('http://localhost:8000/api/usuarios/8')
-    .then(() =>{
-      alert("ya lo borro cldo")
-    })
- }
-//  }, [])
 
-  //  fetch(`http://localhost:8000/api/usuarios`)
-  //      .then(res => res.json())
-   
   
   const [open1, setOpen1] = React.useState(false);
-  // const [selectedValue1, setSelectedValue1] = React.useState(emails[1]);
+  
 
   const handleClickOpen1 = () => {
     setOpen1(true);
@@ -96,7 +42,7 @@ export const DataGridDemo = () => {
 
   const handleClose1 = (value: string) => {
     setOpen1(false);
-    // setSelectedValue1(value);
+
   };
 
 
@@ -124,7 +70,14 @@ export const DataGridDemo = () => {
     {
       field: "Print",
       renderCell: (params) => {
-       
+        const Delete = () => {
+          axios.delete(`http://localhost:8000/api/usuarios/${id}`)
+          .then(() =>{
+            alert("ya lo borro cldo")
+          })
+          setId(params.row.id)
+       }
+
         const handleClickOpen = () => {
           setOpen(true);
           setId(params.row.id)
@@ -192,43 +145,10 @@ export const DataGridDemo = () => {
       />  
    
     </Box>
-{/* 
-    <Dialog
-           open={open}
-           onClose={handleClose}
-    
-       >
-        <DialogTitle>Subscribe</DialogTitle>
-        <DialogContent>
-     
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            type="nombre"
-            value={forValue.nombre}
-            fullWidth
-            variant="standard"
-          />
-            <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            value={forValue.email}
-            type="email"
-            fullWidth
-            variant="standard"
-          />
-    
-        </DialogContent>
-        <DialogActions>
-        <Button onClick={() => handleClose()}>Cancelar</Button> 
-        <Button onClick={() => putRelux()}>editar</Button> 
-        </DialogActions>
-      </Dialog>  */}
+
       <Box sx={{backgroundColor:'red',marginTop:5}}>
       <Button variant="outlined" onClick={handleClickOpen1}>
-        Open simple dialog
+        Crear user
       </Button>
       </Box>
        {open1! && ( 

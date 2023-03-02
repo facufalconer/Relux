@@ -4,13 +4,10 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import DoneIcon from '@mui/icons-material/Done';
-import IconButton from '@mui/material/IconButton';
 import axios from 'axios'
 import {  useMutation, useQuery } from 'react-query'
-import { useState } from 'react';
+
 
 interface Import { open:any,setOpen:any,id:number,handleClose:any }
 
@@ -23,39 +20,30 @@ interface IFromValue {
 export default function FormDialog(
    open: any,setOpen:any,id:any,handleClose:any
   ) {
-  // const [data, setData] = React.useState()
+
   const [forValue, setForValue] = React.useState<IFromValue>({
     nombre:'',
     email:'',
     estado:1
   })
   const handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
-    // console.log(event.target.name)
-    // console.log(event.target.value)
+
     setForValue({
         ...forValue,
          nombre:event.target.value,
      
-        // [event.target.name] : event.target.value
+        
     })
   }
   const handleInputChange1 = (event:React.ChangeEvent<HTMLInputElement>) => {
-    // console.log(event.target.name)
-    // console.log(event.target.value)
     setForValue({
         ...forValue,
         
         email:event.target.value
-        // [event.target.name] : event.target.value
+        
     })
   }
-  // const putRelux = () => {
-  //   axios.put ('http://localhost:8000/api/usuarios/11',{
-  //    nombre:forValue.nombre,
-  //    email:forValue.email,
-  //    estado:1
-  //   })
-  // }
+
   const mutation = useMutation(
    async function ( user) {
       const res = axios.put (`http://localhost:8000/api/usuarios/${open.id}`,{
@@ -69,17 +57,9 @@ export default function FormDialog(
 
 function onSudmit() {
  mutation.mutate()
+ open.setOpen(false)
 }
 
-  // const get = () => {
-  //   fetch('http://localhost:8000/api/usuarios/11') 
-  //   .then(res => res.json())
-  //   .then(res =>setForValue((prev) => ({
-  //    ...prev,
-  //    nombre:res.nombre,
-  //    email:res.email
-  //   })))
-  //  }
   const { data } = useQuery ('usuarios', () =>
   fetch(`http://localhost:8000/api/usuarios/${open.id}`)
       .then(res => res.json())
@@ -91,23 +71,9 @@ function onSudmit() {
       
   );
 
-  // React.useEffect(() => {
-  //   const get = () => {
-  //    fetch(`http://localhost:8000/api/usuarios/3`)
-  //    .then(res => res.json())
-  //    .then(res =>setForValue((prev) => ({
-  //     ...prev,
-  //     nombre:res.nombre,
-  //     email:res.email
-  //    })))
-  //   }
-  //   get()
-  //  }, [])
-
-
 
 const cerrar = () => {
-setOpen(false)
+open.setOpen(false)
 } 
 
   return (
@@ -118,7 +84,7 @@ setOpen(false)
            onClose={cerrar}
     
        >
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>Editar User</DialogTitle>
         <DialogContent>
      
           <TextField
