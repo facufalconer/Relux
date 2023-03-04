@@ -1,13 +1,18 @@
 import express,{Application} from 'express';
 import userRoutes from '../routes/usuarios.routes'
+import routerAuth from '../routes/auth.routes'
 import cors from 'cors'
 import db from '../database/connect';
 
 export class Server{
+  [x: string]: any;
     private app: Application;
     private port: string;
     private apiRoutes ={
       usuarios:'/api/usuarios'
+    }
+    private authRouter ={
+      registrar:'/api/registrar'
     }
     constructor(){
         this.app = express();
@@ -15,9 +20,12 @@ export class Server{
         this.dbConnect()
         this.middlewares()
         this.routes()
+
+       
     }
     routes(){
-      this.app.use(this.apiRoutes.usuarios,userRoutes)
+     this.app.use(this.authRouter.registrar,routerAuth)
+     this.app.use(this.apiRoutes.usuarios,userRoutes)
     }
     async dbConnect(){
       try {

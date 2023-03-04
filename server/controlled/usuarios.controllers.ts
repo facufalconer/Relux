@@ -3,6 +3,7 @@ import Usuario from "../models/usuario"
 
 export const getUsuarios = async(req:Request,res:Response)=> {
     const usuarios = await Usuario.findAll()
+    
     res.json(usuarios)
    
 }
@@ -39,6 +40,7 @@ export const postUsuarios = async(req:Request,res:Response)=> {
         email:body.email,
         estado:body.estado
      })
+   
      await(await usuario).save();
      res.status(200).json({
         message:'El registro se agrego correctamente'
@@ -48,8 +50,6 @@ export const postUsuarios = async(req:Request,res:Response)=> {
         message:'por favor hable con el administrador'
        })
     }
-    // const usuario = await Usuario.findByPk(body)
-    // res.json(usuario)
 }
 
 export const putUsuarios = async(req:Request,res:Response)=> {

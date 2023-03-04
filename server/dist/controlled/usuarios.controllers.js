@@ -60,8 +60,6 @@ const postUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             message: 'por favor hable con el administrador'
         });
     }
-    // const usuario = await Usuario.findByPk(body)
-    // res.json(usuario)
 });
 exports.postUsuarios = postUsuarios;
 const putUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
