@@ -1,7 +1,7 @@
 import { Request,Response } from "express"
 import Register from "../models/register"
 import jwt from 'jsonwebtoken'
-import { encrypt } from "../handleBrycryp/handleBcrypt"
+import { compare, encrypt } from "../handleBrycryp/handleBcrypt"
 
 export const signup = async (req:Request,res:Response) => {
    const {nombre,password,email} = req.body
@@ -55,12 +55,13 @@ export const signip = async (req:Request,res:Response) => {
         message:'usuario correcto'  
       })
    }
+
    const register = await Register.create({
       nombre:body.nombre,
       email:body.email,
       password:body.password
    })
- 
+   const passwordHash = await compare(body.password,register.password)
    await(await register).save();
    res.status(200).json({
       message:'El registro se agrego correctamente'
