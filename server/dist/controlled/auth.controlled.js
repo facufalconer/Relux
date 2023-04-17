@@ -50,26 +50,29 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.signup = signup;
 const signip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { body } = req;
+    const { password, email } = req.body;
     try {
         const existeEmail = yield register_1.default.findOne({
             where: {
-                email: body.email
+                email: email,
             }
         });
-        if (existeEmail) {
-            return res.status(200).json({
-                message: 'usuario correcto'
+        if (!existeEmail) {
+            return res.status(400).json({
+                message: 'Email invalido'
             });
         }
-        const register = yield register_1.default.create({
-            nombre: body.nombre,
-            email: body.email,
-            password: body.password
-        });
-        yield (yield register).save();
+        const checkpassword = yield (0, handleBcrypt_1.compare)(password, existeEmail.password);
+        if (!checkpassword) {
+            return res.status(400).json({
+                checkpassword,
+                message: 'contraseña incorrecta'
+            });
+        }
+        const token = jsonwebtoken_1.default.sign({ _id: existeEmail }, process.env.TOKEN_SECRET || 'TOKEN', { expiresIn: 60 * 60 * 24 });
         res.status(200).json({
-            message: 'El registro se agrego correctamente'
+            token,
+            message: 'usuario correcto'
         });
     }
     catch (error) {
@@ -84,4 +87,7 @@ const profile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json(register);
 });
 exports.profile = profile;
+function save() {
+    throw new Error("Function not implemented.");
+}
 //# sourceMappingURL=auth.controlled.js.map

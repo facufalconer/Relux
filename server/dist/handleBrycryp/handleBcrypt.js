@@ -19,8 +19,8 @@ const encrypt = (texthash) => __awaiter(void 0, void 0, void 0, function* () {
     return hash;
 });
 exports.encrypt = encrypt;
-const compare = (texthash, tesxtplain) => __awaiter(void 0, void 0, void 0, function* () {
-    const hash = yield bcrypt_1.default.compare(texthash, tesxtplain);
+const compare = (tesxtplain, texthash) => __awaiter(void 0, void 0, void 0, function* () {
+    const hash = yield bcrypt_1.default.compare(tesxtplain, texthash);
     return hash;
 });
 exports.compare = compare;

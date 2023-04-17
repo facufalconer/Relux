@@ -5,7 +5,7 @@ export const encrypt = async (texthash:string) =>{
  return hash
 }
 
-export const compare = async (texthash:string,tesxtplain:string) =>{
-    const hash = await bcrypt.compare(texthash,tesxtplain)
+export const compare = async (tesxtplain:string,texthash:string,) =>{
+    const hash = await bcrypt.compare(tesxtplain,texthash)
     return hash
    }
