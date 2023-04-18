@@ -1,10 +1,20 @@
 import {Request , Response,NextFunction} from 'express'
 import jwt from 'jsonwebtoken'
 
-export const auntRouter = ( req:Request,res:Response,next:NextFunction) =>{
-    const token = req.header('auth-token')
-    if(!token) return res.status(401).json('Access denegado')
+export const auntRouter = ( req:Request,res:Response,next:NextFunction ) => {
+    try{
+        const token: any = req.headers.authorization?.split(' ').pop()
+        const tokenData = jwt.verify(token, process.env.TOKEN_SECRET || 'TOKEN')
+        if(tokenData._id){
+            next()
+        } else {
+            res.status(409)
+            res.send({error: 'Tu por aqui no pasas'})
+        }
+    }catch{
+        res.status(409)
+        res.send({error:'Tu por aqui no pasas'});
+        
+    }
 
-    const payload = jwt.verify(token,process.env.TOKEN_SECRET || 'TOKEN' )
-    next()
 }
