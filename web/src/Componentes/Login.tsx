@@ -9,7 +9,12 @@ import { styled } from '@mui/material/styles';
 import { Outlet, Link } from "react-router-dom";
 import React from "react";
 import Reguistrar from "./Reguister";
-
+import { useMutation } from "react-query";
+import axios from "axios";
+import OutlinedInput from '@mui/material/OutlinedInput';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 
 const ValidationTextField = styled(TextField)({
@@ -26,15 +31,60 @@ const ValidationTextField = styled(TextField)({
     padding: '4px !important', // override inline-style
   },
 });
+interface IFromRegister {
+  email:string,
+  password:string
+}
 export default function Login() {
   const [open, setOpen] = React.useState(false);
+  const [formRegister, setForRegister] = React.useState<IFromRegister>({
+
+    email:'',
+    password:''
+  })
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
 
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
+  const mutation = useMutation(
+    async function ( user) {
+       const res = axios.post ('http://localhost:8000/api/registrar/signin',{
+   
+          email:formRegister.email,
+          password:formRegister.password
+    
+        })
+        return res
+     }
+   );
+   function onSudmit() {
+    mutation.mutate()
+ 
+    }
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+  const handleInputChange1 = (event:React.ChangeEvent<HTMLInputElement>) => {
+    setForRegister({
+        ...formRegister,
+        
+        email:event.target.value
+        
+    })
+  }
+  const handleInputChange2 = (event:React.ChangeEvent<HTMLInputElement>) => {
+    setForRegister({
+        ...formRegister,
+        
+        password:event.target.value
+        
+    })
+  }
 
 
   return (
@@ -72,15 +122,17 @@ export default function Login() {
           }}
         >
           <div>
-            <ValidationTextField
+     
+             <ValidationTextField
 
               required
               variant="outlined"
-
+              value={formRegister.email}
+              onChange={handleInputChange1}
               size="small"
               id="validation-outlined-input"
               style={{ marginTop: 25 }}
-              label="Nombre"
+              label="Email"
 
               InputProps={{
                 startAdornment: (
@@ -90,13 +142,15 @@ export default function Login() {
                 ),
               }}
 
-            />
-
-            <ValidationTextField
-              label="DNI"
+            /> 
+    
+             <ValidationTextField
+              label="Clave"
               required
+              type='password'
               variant="outlined"
-
+              value={formRegister.password}
+              onChange={handleInputChange2}
               size="small"
               id="validation-outlined-input"
               style={{ marginTop: 15 }}
@@ -108,16 +162,16 @@ export default function Login() {
                 ),
               }}
 
-            />
+            /> 
 
           </div>
           <div style={{ marginTop: 70, }}>
             <Button variant="contained" size="small" onClick={handleClickOpen}>Reguistrar</Button>
 
-            <Link to="/Formulario">
-              <Button variant="contained" size="small" style={{ marginLeft: 15, zIndex: 1 }} >
+            {/* <Link to="/Formulario"> */}
+              <Button variant="contained" size="small" style={{ marginLeft: 15, zIndex: 1 }} onClick={onSudmit} >
                 Confirmar</Button>
-            </Link>
+            {/* </Link> */}
 
           </div>
         </div>
