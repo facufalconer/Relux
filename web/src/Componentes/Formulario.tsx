@@ -1,4 +1,4 @@
-import * as React from 'react';
+
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridValueGetterParams, renderActionsCell } from '@mui/x-data-grid';
 
@@ -9,11 +9,15 @@ import DoneIcon from '@mui/icons-material/Done';
 import IconButton from '@mui/material/IconButton';
 import FormDialog from './FormularioEdit';
 import { truncate } from 'fs/promises';
-import { useState } from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { useQuery } from 'react-query'
 import { getPostById } from './Apis/GetPosr';
 import SimpleDialog from './FormularioPost';
+import React, { useState,useContext } from "react";
+import useUser from './hooks/useUser';
+import { UserContextType } from './Context/Type';
+import UserContext from './Context/UserContext'
+
 
 export const DataGridDemo = () => {
   const [Value, setValue] = useState()
@@ -23,13 +27,14 @@ export const DataGridDemo = () => {
   }
   )
   const [id, setId] = useState()
-   const { data } = useQuery ('usuarios', () =>{
-    axios.get(`http://localhost:8000/api/usuarios`)
-    .then(response => { 
-      setValue(response.data)
-    })
+  const {usuarios } = useUser()
+ 
+  const {usuario} = useContext(UserContext) as UserContextType
+
+  const gethandle = () =>{
+    usuarios()
    
-   })
+   }
 
 
   
@@ -55,13 +60,13 @@ export const DataGridDemo = () => {
     setOpen(false);
   };
 
- 
+
 
  
   const rows1:any = React.useMemo(() => {
-    if (Value === undefined) return [];
-    return Value;
-  }, [Value]);
+    if ( usuario === undefined) return [];
+    return usuario;
+  }, [usuario]);
 
 
  
@@ -149,6 +154,10 @@ export const DataGridDemo = () => {
       <Box sx={{backgroundColor:'red',marginTop:5}}>
       <Button variant="outlined" onClick={handleClickOpen1}>
         Crear user
+      </Button>
+      <Button variant="outlined" onClick={gethandle}>
+        get
+
       </Button>
       </Box>
        {open1! && ( 

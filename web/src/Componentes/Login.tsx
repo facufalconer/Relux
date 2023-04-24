@@ -1,4 +1,3 @@
-
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -6,15 +5,14 @@ import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import Button from '@mui/material/Button';
 import bar from '../Imagen/24320.jpg'
 import { styled } from '@mui/material/styles';
-import { Outlet, Link } from "react-router-dom";
-import React from "react";
+import { Outlet, Link, useLocation } from "react-router-dom";
+import React, { useState,useContext,useEffect, useMemo } from "react";
 import Reguistrar from "./Reguister";
 import { useMutation } from "react-query";
 import axios from "axios";
-import OutlinedInput from '@mui/material/OutlinedInput';
-import IconButton from '@mui/material/IconButton';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import UserContext from './Context/UserContext'
+import { UserContextType } from "./Context/Type";
+import useUser from "./hooks/useUser";
 
 
 const ValidationTextField = styled(TextField)({
@@ -35,39 +33,42 @@ interface IFromRegister {
   email:string,
   password:string
 }
-export default function Login() {
+
+export function Login() {
   const [open, setOpen] = React.useState(false);
   const [formRegister, setForRegister] = React.useState<IFromRegister>({
-
     email:'',
     password:''
   })
-  const [showPassword, setShowPassword] = React.useState(false);
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
+  const { login,isLogged,isLogerLoading,hasLoginError} = useUser()
+  const {navigate}:any = useLocation() 
+// useEffect(() => {
+// if(isLogged) navigate('/Formulario')
 
+// },[isLogged,navigate])
+
+
+// export const token:any = React.useMemo(() => {
+//   if (UsersContext === undefined) return [];
+//   return UsersContext;
+// }, [UsersContext]);
+// console.log('si anda',UsersContext)
+  // const [showPassword, setShowPassword] = React.useState(false);
+  // const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   event.preventDefault();
+  // };
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const mutation = useMutation(
-    async function ( user) {
-       const res = axios.post ('http://localhost:8000/api/registrar/signin',{
-   
-          email:formRegister.email,
-          password:formRegister.password
-    
-        })
-        return res
-     }
-   );
+
+   const email1:string = formRegister.email 
+   const password1:string = formRegister.password
    function onSudmit() {
-    mutation.mutate()
- 
+    login(email1,password1)
     }
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    // const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleInputChange1 = (event:React.ChangeEvent<HTMLInputElement>) => {
     setForRegister({
@@ -85,6 +86,7 @@ export default function Login() {
         
     })
   }
+
 
 
   return (
@@ -121,8 +123,10 @@ export default function Login() {
             backgroundColor: 'white'
           }}
         >
+            {isLogerLoading && <strong>Checking credentials ...</strong>}
+     {!isLogerLoading &&
           <div>
-     
+   
              <ValidationTextField
 
               required
@@ -165,6 +169,10 @@ export default function Login() {
             /> 
 
           </div>
+          }
+          {
+            hasLoginError && <strong>Credentials are invalid</strong>
+          }
           <div style={{ marginTop: 70, }}>
             <Button variant="contained" size="small" onClick={handleClickOpen}>Reguistrar</Button>
 
@@ -176,7 +184,7 @@ export default function Login() {
           </div>
         </div>
       </div>
-      <Outlet />
+      {/* <Outlet /> */}
 
       {open! && (
 

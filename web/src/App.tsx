@@ -1,24 +1,37 @@
 import React from 'react';
-import './App.css';
-import {DataGridDemo }from './Componentes/Formulario';
-import { Routes,Route} from "react-router-dom";
-import Layout from './Componentes/Layout';
-import InputWithIcon from './Componentes/Login';
+
+import { DataGridDemo } from './Componentes/Formulario';
+import { Routes, Route } from "react-router-dom";
+import { Login } from './Componentes/Login';
+import { UsersContextProvider } from './Componentes/Context/UserContext';
+
+
+
+
+
 
 function App() {
 
   return (
+  <UsersContextProvider>
+    <div style={{ backgroundColor: 'pink' }} >
+      
    
-    <div style={{backgroundColor:'pink'}} >
       <Routes>
-        <Route path='/Login' element={<InputWithIcon/>}/>
-        <Route path='/Formulario' element={<DataGridDemo/>}/>
+          <Route path='/Login' element={<Login />} />
+          <Route path='/Formulario' element={
 
-        
-      </Routes>
-   {/* <DataGridDemo/> */}
+            <DataGridDemo />
+
+
+          } />
+
+
+        </Routes> 
+
     </div>
-
+    
+    </UsersContextProvider>
   );
 }
 
