@@ -64,7 +64,8 @@ const {password,email} = req.body
         message:'contraseña incorrecta'  
       })
    }
-   const token =jwt.sign({_id:existeEmail},process.env.TOKEN_SECRET || 'TOKEN',{expiresIn: 60 * 60 * 24})
+   const token =jwt.sign({_id:existeEmail},process.env.TOKEN_SECRET || 'TOKEN',{expiresIn: 60 * 60 * 24
+   })
   
     res.status(200).json({
       token,

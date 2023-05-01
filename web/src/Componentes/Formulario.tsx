@@ -1,45 +1,46 @@
-
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridValueGetterParams, renderActionsCell } from '@mui/x-data-grid';
-
 import Button from '@mui/material/Button';
-import axios from 'axios'
 import DeleteIcon from '@mui/icons-material/Delete';
 import DoneIcon from '@mui/icons-material/Done';
 import IconButton from '@mui/material/IconButton';
 import FormDialog from './FormularioEdit';
-import { truncate } from 'fs/promises';
-import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import { useQuery } from 'react-query'
-import { getPostById } from './Apis/GetPosr';
 import SimpleDialog from './FormularioPost';
-import React, { useState,useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import useUser from './hooks/useUser';
 import { UserContextType } from './Context/Type';
+import { useNavigate } from "react-router-dom";
 import UserContext from './Context/UserContext'
+import { useQuery } from 'react-query';
+import getUsuarios from './servecios/GetUsuario';
+import DeleteUsuarios from './servecios/DeleteUsuario';
+
+interface IFromValue {
+  nombre:string,
+  email:string,
+  estado:number
+}
+
 
 
 export const DataGridDemo = () => {
-  const [Value, setValue] = useState()
-  const [forValue, setForValue] = useState({
-    nombre:'',
-    email:''
-  }
-  )
   const [id, setId] = useState()
-  const {usuarios } = useUser()
- 
-  const {usuario} = useContext(UserContext) as UserContextType
+  const {  logout,isLogged } = useUser()
+  const navigate = useNavigate()
 
-  const gethandle = () =>{
-    usuarios()
-   
-   }
+  const { jwt,setJwt } = useContext(UserContext) as UserContextType
 
+  const cerrarSecion = () => {
+    logout()
+     navigate('/')
+  }
 
-  
-  const [open1, setOpen1] = React.useState(false);
-  
+useEffect(() => {
+if(!isLogged) navigate('/')
+
+},[isLogged,navigate])
+
+  const [open1, setOpen1] = React.useState(false)
 
   const handleClickOpen1 = () => {
     setOpen1(true);
@@ -50,58 +51,53 @@ export const DataGridDemo = () => {
 
   };
 
-
- const [open, setOpen] = React.useState(false);
-
-
-
+  const [open, setOpen] = React.useState(false);
 
   const handleClose = () => {
     setOpen(false);
   };
 
+console.log(jwt)
+const { data,refetch } = useQuery ('usuarios', () =>
+getUsuarios(jwt)
+);
 
 
- 
-  const rows1:any = React.useMemo(() => {
-    if ( usuario === undefined) return [];
-    return usuario;
-  }, [usuario]);
+const rows1: any = React.useMemo(() => {
+    if (data === undefined) return [];
+    return data;
+  }, [data]);
 
 
- 
-
-  const columns: GridColDef[] = [
+const columns: GridColDef[] = [
     {
       field: "Print",
       renderCell: (params) => {
         const Delete = () => {
-          axios.delete(`http://localhost:8000/api/usuarios/${id}`)
-          .then(() =>{
-            alert("ya lo borro cldo")
-          })
           setId(params.row.id)
-       }
+          DeleteUsuarios(id,jwt)
+        
+        }
 
         const handleClickOpen = () => {
           setOpen(true);
           setId(params.row.id)
         };
         return (
-         
-      <Box style={{display:'flex'}}>
-        <IconButton aria-label="Example" onClick={() =>  Delete()}>
-        <DeleteIcon />
-      </IconButton>
-      <IconButton onClick={() => handleClickOpen()}>
-        <DoneIcon/>
-    </IconButton>
-      </Box>
+
+          <Box style={{ display: 'flex' }}>
+            <IconButton aria-label="Example" onClick={() => Delete()}>
+              <DeleteIcon />
+            </IconButton>
+            <IconButton onClick={() => handleClickOpen()}>
+              <DoneIcon />
+            </IconButton>
+          </Box>
 
         );
       }
     },
-   
+
     {
       field: 'nombre',
       headerName: 'Nombre',
@@ -131,58 +127,60 @@ export const DataGridDemo = () => {
         `${params.row.firstName || ''} ${params.row.lastName || ''}`,
     },
   ];
- 
- 
+
+
 
   return (
     <Box >
-    <Box sx={{height:657,width:'100%'}}>
-       <DataGrid
-         rows ={rows1}
-        columns={columns}
-        getRowId={(row: { id: any; }) => row.id}
-       
-        rowsPerPageOptions={[5]}
-     
-        disableSelectionOnClick
-        experimentalFeatures={{ newEditingApi: true }}
-        
-      />  
-   
-    </Box>
+      <Box sx={{ height: 500, width: '100%' }}>
+        <DataGrid
+          rows={rows1}
+          columns={columns}
+          getRowId={(row: { id: any; }) => row.id}
 
-      <Box sx={{backgroundColor:'red',marginTop:5}}>
-      <Button variant="outlined" onClick={handleClickOpen1}>
-        Crear user
-      </Button>
-      <Button variant="outlined" onClick={gethandle}>
-        get
+          rowsPerPageOptions={[5]}
 
-      </Button>
+          disableSelectionOnClick
+          experimentalFeatures={{ newEditingApi: true }}
+
+        />
+
       </Box>
-       {open1! && ( 
 
-    <SimpleDialog
-    open={open1}
-    handleClose={handleClose1}
-    setOpen={setOpen1}
-    
+      <Box sx={{ backgroundColor: 'red', marginTop: 5 }}>
+        <Button variant="outlined" onClick={handleClickOpen1}>
+          Crear user
+        </Button>
 
-    />
-   
- )} 
-   {open! && ( 
+        <Button variant="outlined" onClick={cerrarSecion}>
+          Cerrar
 
-    <FormDialog
-    open={open}
-    handleClose={handleClose}
-    setOpen={setOpen}
-     id={id}
+        </Button>
+       
+      </Box>
+      {open1! && (
 
-    />
-   
- )}
-     
+        <SimpleDialog
+          open={open1}
+          handleClose={handleClose1}
+          setOpen={setOpen1}
+
+
+        />
+
+      )}
+      {open! && (
+
+        <FormDialog
+          open={open}
+          handleClose={handleClose}
+          setOpen={setOpen}
+          id={id}
+
+        />
+
+      )}
+
     </Box>
   );
 }

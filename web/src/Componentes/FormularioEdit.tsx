@@ -7,6 +7,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios'
 import {  useMutation, useQuery } from 'react-query'
+import UserContext from './Context/UserContext';
+import { UserContextType } from './Context/Type';
+import UpdateUsuario from './servecios/UpdateUsuario';
 
 
 interface Import { open:any,setOpen:any,id:number,handleClose:any }
@@ -20,27 +23,22 @@ interface IFromValue {
 export default function FormDialog(
    open: any,setOpen:any,id:any,handleClose:any
   ) {
-
+  const { jwt } = React.useContext(UserContext) as UserContextType
   const [forValue, setForValue] = React.useState<IFromValue>({
     nombre:'',
     email:'',
-    estado:1
+    estado:0
   })
   const handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
-
     setForValue({
         ...forValue,
          nombre:event.target.value,
-     
-        
     })
   }
   const handleInputChange1 = (event:React.ChangeEvent<HTMLInputElement>) => {
     setForValue({
         ...forValue,
-        
-        email:event.target.value
-        
+        email:event.target.value  
     })
   }
 
@@ -54,27 +52,37 @@ export default function FormDialog(
        return res
     }
   );
-
+console.log(open.id)
 function onSudmit() {
  mutation.mutate()
  open.setOpen(false)
 }
 
-  const { data } = useQuery ('usuarios', () =>
-  fetch(`http://localhost:8000/api/usuarios/${open.id}`)
-      .then(res => res.json())
-      .then(res =>setForValue((prev) => ({
-            ...prev,
-            nombre:res.nombre,
-            email:res.email
-           })))
-      
-  );
+const { data } = useQuery ('usuarios', () =>{
+   UpdateUsuario(jwt,open.id)
+  });
 
 
 const cerrar = () => {
 open.setOpen(false)
 } 
+// setForValue({
+//   ...forValue,
+//  nombre:data?.dat
+// })
+
+
+// setForValue({
+// ...forValue,
+// nombre:usuario.map((a: {
+//   nombre: any; "": any; 
+// }):any => a.nombre),
+
+// email:usuario.map((a: {
+//   email: any; "": any; 
+// }):any => a.email)
+
+// })
 
   return (
     <div>

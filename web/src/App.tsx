@@ -18,7 +18,7 @@ function App() {
       
    
       <Routes>
-          <Route path='/Login' element={<Login />} />
+          <Route path='/' element={<Login />} />
           <Route path='/Formulario' element={
 
             <DataGridDemo />

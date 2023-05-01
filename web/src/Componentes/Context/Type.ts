@@ -7,8 +7,8 @@ export type usuarios = {
     estado:number
    }
 export type UserContextType = {
-    jwt: Array<Jwt>
-    setJwt:(value:Array<Jwt>) => void
+    jwt: Jwt
+    setJwt:(value:Jwt) => void
     usuario:Array<usuarios>
     setUsuario:(value:Array<usuarios>) => void
 }

@@ -5,7 +5,7 @@ import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import Button from '@mui/material/Button';
 import bar from '../Imagen/24320.jpg'
 import { styled } from '@mui/material/styles';
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useState,useContext,useEffect, useMemo } from "react";
 import Reguistrar from "./Reguister";
 import { useMutation } from "react-query";
@@ -26,7 +26,7 @@ const ValidationTextField = styled(TextField)({
   },
   '& input:valid:focus + fieldset': {
     borderLeftWidth: 1,
-    padding: '4px !important', // override inline-style
+    padding: '4px !important', 
   },
 });
 interface IFromRegister {
@@ -41,34 +41,19 @@ export function Login() {
     password:''
   })
   const { login,isLogged,isLogerLoading,hasLoginError} = useUser()
-  const {navigate}:any = useLocation() 
-// useEffect(() => {
-// if(isLogged) navigate('/Formulario')
+  const navigate = useNavigate() 
 
-// },[isLogged,navigate])
-
-
-// export const token:any = React.useMemo(() => {
-//   if (UsersContext === undefined) return [];
-//   return UsersContext;
-// }, [UsersContext]);
-// console.log('si anda',UsersContext)
-  // const [showPassword, setShowPassword] = React.useState(false);
-  // const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   event.preventDefault();
-  // };
 
   const handleClickOpen = () => {
     setOpen(true);
   };
-
 
    const email1:string = formRegister.email 
    const password1:string = formRegister.password
    function onSudmit() {
     login(email1,password1)
     }
-    // const handleClickShowPassword = () => setShowPassword((show) => !show);
+
 
   const handleInputChange1 = (event:React.ChangeEvent<HTMLInputElement>) => {
     setForRegister({
@@ -105,10 +90,7 @@ export function Login() {
             width: 1015,
             height: 657
           }}
-
           src={bar}
-
-
         />
         <div
           style={{
@@ -123,7 +105,9 @@ export function Login() {
             backgroundColor: 'white'
           }}
         >
-            {isLogerLoading && <strong>Checking credentials ...</strong>}
+            {isLogerLoading && <div    style={{
+ 
+          }}>Checking credentials ...</div>}
      {!isLogerLoading &&
           <div>
    
@@ -171,15 +155,15 @@ export function Login() {
           </div>
           }
           {
-            hasLoginError && <strong>Credentials are invalid</strong>
+            hasLoginError && <strong style={{color:'red'}}>Credentials are invalid</strong>
           }
           <div style={{ marginTop: 70, }}>
             <Button variant="contained" size="small" onClick={handleClickOpen}>Reguistrar</Button>
 
-            {/* <Link to="/Formulario"> */}
+           
               <Button variant="contained" size="small" style={{ marginLeft: 15, zIndex: 1 }} onClick={onSudmit} >
                 Confirmar</Button>
-            {/* </Link> */}
+            
 
           </div>
         </div>
