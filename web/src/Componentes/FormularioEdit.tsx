@@ -45,6 +45,9 @@ export default function FormDialog(
   const mutation = useMutation(
    async function ( user) {
       const res = axios.put (`http://localhost:8000/api/usuarios/${open.id}`,{
+        headers:{
+          authorization:jwt
+       },
          nombre:forValue.nombre,
          email:forValue.email
    
@@ -52,7 +55,7 @@ export default function FormDialog(
        return res
     }
   );
-console.log(open.id)
+
 function onSudmit() {
  mutation.mutate()
  open.setOpen(false)
@@ -66,23 +69,6 @@ const { data } = useQuery ('usuarios', () =>{
 const cerrar = () => {
 open.setOpen(false)
 } 
-// setForValue({
-//   ...forValue,
-//  nombre:data?.dat
-// })
-
-
-// setForValue({
-// ...forValue,
-// nombre:usuario.map((a: {
-//   nombre: any; "": any; 
-// }):any => a.nombre),
-
-// email:usuario.map((a: {
-//   email: any; "": any; 
-// }):any => a.email)
-
-// })
 
   return (
     <div>

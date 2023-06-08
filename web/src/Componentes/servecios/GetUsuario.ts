@@ -1,12 +1,7 @@
 import axios from "axios";
-export default function getUsuarios (jwt:any) {
+export default function getUsuarios () {
    
-   return axios.get('http://localhost:8000/api/usuarios',{
-     method:'GET',
-     headers:{
-        authorization:jwt
-     }
-})
+   return axios.get('http://localhost:8000/api/usuarios')
 .then (res => {
      const usuarios = res.data
   return usuarios

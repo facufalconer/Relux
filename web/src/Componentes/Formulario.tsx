@@ -12,8 +12,12 @@ import { UserContextType } from './Context/Type';
 import { useNavigate } from "react-router-dom";
 import UserContext from './Context/UserContext'
 import { useQuery } from 'react-query';
-import getUsuarios from './servecios/GetUsuario';
 import DeleteUsuarios from './servecios/DeleteUsuario';
+ import  getUsuarios  from './servecios/GetUsuario';
+import { AxiosHooks } from './hooks/axiosHooks';
+
+
+
 
 interface IFromValue {
   nombre:string,
@@ -27,8 +31,9 @@ export const DataGridDemo = () => {
   const [id, setId] = useState()
   const {  logout,isLogged } = useUser()
   const navigate = useNavigate()
+  const { jwt } = useContext(UserContext) as UserContextType
 
-  const { jwt,setJwt } = useContext(UserContext) as UserContextType
+  AxiosHooks(jwt)
 
   const cerrarSecion = () => {
     logout()
@@ -57,16 +62,16 @@ if(!isLogged) navigate('/')
     setOpen(false);
   };
 
-console.log(jwt)
-const { data,refetch } = useQuery ('usuarios', () =>
-getUsuarios(jwt)
-);
 
-
-const rows1: any = React.useMemo(() => {
-    if (data === undefined) return [];
-    return data;
-  }, [data]);
+  const { data } = useQuery ('usuarios', () =>
+  getUsuarios()
+  );
+  
+  
+  const rows1: any = React.useMemo(() => {
+      if (data === undefined) return [];
+      return data;
+    }, [data]);
 
 
 const columns: GridColDef[] = [
@@ -156,7 +161,7 @@ const columns: GridColDef[] = [
           Cerrar
 
         </Button>
-       
+     
       </Box>
       {open1! && (
 
