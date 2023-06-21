@@ -1,14 +1,17 @@
 export type Jwt = {
  token:string | null
+
 }
-export type usuarios = {
-    nombre:string,
-    email:string,
-    estado:number
+export type Num = {
+
+    num: number | null
    }
+   
 export type UserContextType = {
+    num: Num
+    setNum:(value:Num) => void
     jwt: Jwt
     setJwt:(value:Jwt) => void
-    usuario:Array<usuarios>
-    setUsuario:(value:Array<usuarios>) => void
 }
+
+

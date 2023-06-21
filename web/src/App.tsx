@@ -1,30 +1,32 @@
 import React, { useContext } from 'react';
-
-import { DataGridDemo } from './Componentes/Formulario';
 import { Routes, Route } from "react-router-dom";
 import { Login } from './Componentes/Login';
 import UserContext, { UsersContextProvider } from './Componentes/Context/UserContext';
 import { UserContextType } from './Componentes/Context/Type';
 import { AxiosHooks } from './Componentes/hooks/axiosHooks';
-
+import { Box } from '@mui/material';
+import { ComponentGeneral } from './Componentes/ComponentGeneral';
 
 
 
 
 
 function App() {
-  
+  const { jwt } = useContext(UserContext) as UserContextType
+
+  AxiosHooks(jwt)
+
  
   return (
-  <UsersContextProvider>
-    <div style={{ backgroundColor: 'pink' }} >
+
+    <div>
       
    
       <Routes>
           <Route path='/' element={<Login />} />
           <Route path='/Formulario' element={
 
-            <DataGridDemo />
+        <ComponentGeneral/>
 
 
           } />
@@ -32,9 +34,9 @@ function App() {
 
         </Routes> 
 
-    </div>
+        </div>
     
-    </UsersContextProvider>
+  
   );
 }
 

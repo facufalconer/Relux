@@ -11,7 +11,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AxiosHooks } from './Componentes/hooks/axiosHooks';
 import { UserContextType } from './Componentes/Context/Type';
 import UserContext from './Componentes/Context/UserContext';
-
+import  { UsersContextProvider } from './Componentes/Context/UserContext';
 
  
  
@@ -25,12 +25,14 @@ const root = ReactDOM.createRoot(
 const queryClient = new QueryClient()
 root.render(
    <React.StrictMode>
+      <UsersContextProvider>
     <BrowserRouter>
     <QueryClientProvider client={queryClient}>
 
     <App />
     </QueryClientProvider>
     </BrowserRouter>
+    </UsersContextProvider>
   </React.StrictMode>
 );
 

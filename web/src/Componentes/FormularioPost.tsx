@@ -6,14 +6,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import { DialogContent, TextField } from '@mui/material';
 import { useMutation } from 'react-query';
-import PostUsuario from './servecios/PostUsuario';
 import axios from 'axios';
-
-
-
-
-
-
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -31,9 +24,6 @@ export default  function SimpleDialog(  open: any,setOpen:any,_rowsId:any,handle
         email:'',
         estado:1
       })
-
-
-
 const handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
 
   setForValue({
@@ -41,7 +31,6 @@ const handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
        nombre:event.target.value,
   })
 }
-
 const handleInputChange1 = (event:React.ChangeEvent<HTMLInputElement>) => {
 
   setForValue({
@@ -51,13 +40,8 @@ const handleInputChange1 = (event:React.ChangeEvent<HTMLInputElement>) => {
      
   })
 }
-const data = {
-  nombre:forValue.nombre,
-  email:forValue.email
-}
 
  const mutation = useMutation(
-  
   async function ( user) {
     const res = axios.post ('http://localhost:8000/api/usuarios',{
        nombre:forValue.nombre,
@@ -69,16 +53,14 @@ const data = {
   );
 
 function onSudmit() {
- mutation.mutate()
-open.setOpen(false)
+  mutation.mutate()
+  open.setOpen(false)
 }
 const cerrar = () => {
   open.setOpen(false)
-  } 
+} 
   
-  function axiosPostCall(): React.MouseEventHandler<HTMLButtonElement> | undefined {
-    throw new Error('Function not implemented.');
-  }
+ 
 
   return (
     <Dialog onClose={handleClose} open={open}>

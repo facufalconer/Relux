@@ -12,7 +12,7 @@ import { UserContextType } from './Context/Type';
 import UpdateUsuario from './servecios/UpdateUsuario';
 
 
-interface Import { open:any,setOpen:any,id:number,handleClose:any }
+
 
 interface IFromValue {
   nombre:string,
@@ -21,7 +21,7 @@ interface IFromValue {
 }
 
 export default function FormDialog(
-   open: any,setOpen:any,id:any,handleClose:any
+   open: any
   ) {
   const { jwt } = React.useContext(UserContext) as UserContextType
   const [forValue, setForValue] = React.useState<IFromValue>({
@@ -62,7 +62,7 @@ function onSudmit() {
 }
 
 const { data } = useQuery ('usuarios', () =>{
-   UpdateUsuario(jwt,open.id)
+   UpdateUsuario(open.id)
   });
 
 

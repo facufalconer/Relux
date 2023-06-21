@@ -3,15 +3,11 @@ import TextField from "@mui/material/TextField";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import Button from '@mui/material/Button';
-import bar from '../Imagen/24320.jpg'
+import bar from '../Imagen/WhatsApp Image 2023-06-14 at 2.56.47 AM.jpeg'
 import { styled } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
-import React, { useState,useContext,useEffect, useMemo } from "react";
+import React from "react";
 import Reguistrar from "./Reguister";
-import { useMutation } from "react-query";
-import axios from "axios";
-import UserContext from './Context/UserContext'
-import { UserContextType } from "./Context/Type";
 import useUser from "./hooks/useUser";
 
 
@@ -41,7 +37,7 @@ export function Login() {
     password:''
   })
   const { login,isLogged,isLogerLoading,hasLoginError} = useUser()
-  const navigate = useNavigate() 
+ 
 
 
   const handleClickOpen = () => {
@@ -87,8 +83,8 @@ export function Login() {
       >
         <img
           style={{
-            width: 1015,
-            height: 657
+            width: "70%",
+            height: 500
           }}
           src={bar}
         />

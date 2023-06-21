@@ -8,32 +8,18 @@ import FormDialog from './FormularioEdit';
 import SimpleDialog from './FormularioPost';
 import React, { useState, useContext, useEffect } from "react";
 import useUser from './hooks/useUser';
-import { UserContextType } from './Context/Type';
 import { useNavigate } from "react-router-dom";
-import UserContext from './Context/UserContext'
 import { useQuery } from 'react-query';
 import DeleteUsuarios from './servecios/DeleteUsuario';
  import  getUsuarios  from './servecios/GetUsuario';
-import { AxiosHooks } from './hooks/axiosHooks';
-
-
-
-
-interface IFromValue {
-  nombre:string,
-  email:string,
-  estado:number
-}
-
+import { Headboard } from './Headboard';
 
 
 export const DataGridDemo = () => {
   const [id, setId] = useState()
   const {  logout,isLogged } = useUser()
   const navigate = useNavigate()
-  const { jwt } = useContext(UserContext) as UserContextType
-
-  AxiosHooks(jwt)
+  
 
   const cerrarSecion = () => {
     logout()
@@ -63,11 +49,12 @@ if(!isLogged) navigate('/')
   };
 
 
-  const { data } = useQuery ('usuarios', () =>
+  const { data,refetch} = useQuery ('usuarios', () =>
   getUsuarios()
+
   );
   
-  
+  // refetch()
   const rows1: any = React.useMemo(() => {
       if (data === undefined) return [];
       return data;
@@ -78,9 +65,10 @@ const columns: GridColDef[] = [
     {
       field: "Print",
       renderCell: (params) => {
+        
         const Delete = () => {
           setId(params.row.id)
-          DeleteUsuarios(id,jwt)
+          DeleteUsuarios(id)
         
         }
 
@@ -137,7 +125,10 @@ const columns: GridColDef[] = [
 
   return (
     <Box >
-      <Box sx={{ height: 500, width: '100%' }}>
+      
+      <Box
+       sx={{ height: 535, width: '100%' }}
+      >
         <DataGrid
           rows={rows1}
           columns={columns}
@@ -152,7 +143,7 @@ const columns: GridColDef[] = [
 
       </Box>
 
-      <Box sx={{ backgroundColor: 'red', marginTop: 5 }}>
+      {/* <Box sx={{ backgroundColor: 'red', marginTop: 5 }}>
         <Button variant="outlined" onClick={handleClickOpen1}>
           Crear user
         </Button>
@@ -162,7 +153,7 @@ const columns: GridColDef[] = [
 
         </Button>
      
-      </Box>
+      </Box> */}
       {open1! && (
 
         <SimpleDialog
