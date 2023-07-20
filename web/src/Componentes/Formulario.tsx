@@ -11,25 +11,26 @@ import useUser from './hooks/useUser';
 import { useNavigate } from "react-router-dom";
 import { useQuery } from 'react-query';
 import DeleteUsuarios from './servecios/DeleteUsuario';
- import  getUsuarios  from './servecios/GetUsuario';
+import getUsuarios from './servecios/GetUsuario';
 import { Headboard } from './Headboard';
+import { Grid } from '@mui/material';
 
 
 export const DataGridDemo = () => {
   const [id, setId] = useState()
-  const {  logout,isLogged } = useUser()
+  const { logout, isLogged } = useUser()
   const navigate = useNavigate()
-  
+
 
   const cerrarSecion = () => {
     logout()
-     navigate('/')
+    navigate('/')
   }
 
-useEffect(() => {
-if(!isLogged) navigate('/')
+  useEffect(() => {
+    if (!isLogged) navigate('/')
 
-},[isLogged,navigate])
+  }, [isLogged, navigate])
 
   const [open1, setOpen1] = React.useState(false)
 
@@ -49,27 +50,27 @@ if(!isLogged) navigate('/')
   };
 
 
-  const { data,refetch} = useQuery ('usuarios', () =>
-  getUsuarios()
+  const { data, refetch } = useQuery('usuarios', () =>
+    getUsuarios()
 
   );
-  
+
   // refetch()
   const rows1: any = React.useMemo(() => {
-      if (data === undefined) return [];
-      return data;
-    }, [data]);
+    if (data === undefined) return [];
+    return data;
+  }, [data]);
 
 
-const columns: GridColDef[] = [
+  const columns: GridColDef[] = [
     {
       field: "Print",
       renderCell: (params) => {
-        
+
         const Delete = () => {
           setId(params.row.id)
           DeleteUsuarios(id)
-        
+
         }
 
         const handleClickOpen = () => {
@@ -95,88 +96,83 @@ const columns: GridColDef[] = [
       field: 'nombre',
       headerName: 'Nombre',
       width: 150,
-      editable: true,
+      // editable: true,
     },
     {
       field: 'email',
       headerName: 'Email',
       width: 150,
-      editable: true,
+      // editable: true,
     },
     {
       field: 'updatedAt',
       headerName: 'Hora',
       type: 'number',
       width: 110,
-      editable: true,
+      // editable: true,
     },
     {
       field: 'estado',
       headerName: 'Estado',
       description: 'This column has a value getter and is not sortable.',
       sortable: false,
-      width: 160,
-      valueGetter: (params: GridValueGetterParams) =>
-        `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-    },
+      // width: 160,
+    //   valueGetter: (params: GridValueGetterParams) =>
+    //     `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+    //
+   },
   ];
 
 
 
   return (
-    <Box >
-      
-      <Box
-       sx={{ height: 535, width: '100%' }}
-      >
-        <DataGrid
-          rows={rows1}
-          columns={columns}
-          getRowId={(row: { id: any; }) => row.id}
+    <Grid container spacing={5}>
+      <Grid item xs={15}>
+        <Box style={{ height: 60, }}>
+          <Headboard />
+        </Box>
+      </Grid>
+      <Grid item xs={15}>
+        <Box style={{ height: 500 }}>
 
-          rowsPerPageOptions={[5]}
+          <DataGrid
+            rows={rows1}
+            columns={columns}
+            getRowId={(row: { id: any; }) => row.id}
+
+            rowsPerPageOptions={[5]}
 
           disableSelectionOnClick
-          experimentalFeatures={{ newEditingApi: true }}
+            experimentalFeatures={{ newEditingApi: true }}
 
-        />
-
-      </Box>
-
-      {/* <Box sx={{ backgroundColor: 'red', marginTop: 5 }}>
-        <Button variant="outlined" onClick={handleClickOpen1}>
-          Crear user
-        </Button>
-
-        <Button variant="outlined" onClick={cerrarSecion}>
-          Cerrar
-
-        </Button>
-     
-      </Box> */}
-      {open1! && (
-
-        <SimpleDialog
-          open={open1}
-          handleClose={handleClose1}
-          setOpen={setOpen1}
+          />
 
 
-        />
+        </Box>
+     {open1! && (
 
-      )}
-      {open! && (
+   <SimpleDialog
+      open={open1}
+      handleClose={handleClose1}
+     setOpen={setOpen1}
 
-        <FormDialog
-          open={open}
-          handleClose={handleClose}
-          setOpen={setOpen}
-          id={id}
 
-        />
+   />
 
-      )}
+  )},
+  {open! && (
 
-    </Box>
+   <FormDialog
+     open={open}
+     handleClose={handleClose}
+      setOpen={setOpen}
+      id={id}
+
+     />
+
+   )}
+      </Grid>
+    </Grid>
+ 
   );
 }

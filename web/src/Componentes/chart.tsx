@@ -11,7 +11,8 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
-import { Box } from '@mui/material';
+import { Box, Grid } from '@mui/material';
+import { Headboard } from './Headboard';
 
 ChartJS.register(
   CategoryScale,
@@ -57,11 +58,28 @@ export const data = {
 };
 
 export function Chart() {
-  return( 
-    <Box style={{display:'flex',justifyContent:'end',marginLeft:'14%', width:1000}}>
-  <Line options={options} data={data} />
-  </Box>
-  
-  
+  return (
+
+    <Grid container spacing={2}>
+      <Grid item xs={15}>
+        <Box style={{ height: 60, }}>
+          <Headboard />
+        </Box>
+      </Grid>
+      <Grid item xs={15}>
+
+       <Box style={{display:'flex',justifyContent:'center', width:'100%'}}>
+
+        <Box style={{width:'80%'}}>
+
+          <Line options={options} data={data} />
+
+        </Box>
+
+        </Box>
+
+      </Grid>
+    </Grid>
+
   )
 }

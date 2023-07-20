@@ -4,8 +4,10 @@ import { Login } from './Componentes/Login';
 import UserContext, { UsersContextProvider } from './Componentes/Context/UserContext';
 import { UserContextType } from './Componentes/Context/Type';
 import { AxiosHooks } from './Componentes/hooks/axiosHooks';
-import { Box } from '@mui/material';
-import { ComponentGeneral } from './Componentes/ComponentGeneral';
+import { DataGridDemo } from './Componentes/Formulario';
+import { Chart } from './Componentes/chart';
+import ComboBox from './Componentes/Buscador';
+
 
 
 
@@ -24,12 +26,9 @@ function App() {
    
       <Routes>
           <Route path='/' element={<Login />} />
-          <Route path='/Formulario' element={
-
-        <ComponentGeneral/>
-
-
-          } />
+          <Route path='/Formulario' element={ <DataGridDemo /> } />
+          <Route path='/Grafico' element={<Chart />} />
+          <Route path='/Buscador' element={<ComboBox />} />
 
 
         </Routes> 

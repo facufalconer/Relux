@@ -1,20 +1,127 @@
-import * as React from 'react';
+import { useRef, useState } from 'react'; 
 import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
+import { Box, Grid } from '@mui/material';
+import { Headboard } from './Headboard';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+interface IBuscador {
+  label:string,
+}
 
 export default function ComboBox() {
+
+  const debounceRef = useRef<NodeJS.Timeout>()
+ 
+  const [buscador,setBuscador] = useState('') 
+
+  const filter =(TerminoBusqueda:any) => {
+    var resultadosBusqueda=top100Films.filter((elemento:any) => {
+     if(elemento.label.toString().toLowerCase().includes(TerminoBusqueda.toLowerCase()) 
+
+     ){
+      setBuscador(elemento)
+     return(elemento)
+     }
+    })
+    return resultadosBusqueda
+  }
+  const onQueryChanged = (event:React.ChangeEvent<HTMLInputElement> )=>{
+    if( debounceRef.current )
+      clearTimeout( debounceRef.current)
+      debounceRef.current = setTimeout(() =>{
+        filter(event.target.value)   
+
+      },700)
+  
+
+  }
+
+
+
+  function createData(
+    label: string,
+    
+   
+  ) {
+    return { label };
+  }
+  const rows = [
+    createData(buscador),
+
+  ];
+
+console.log(buscador,'acas es!!!!!!!')
+   
   return (
-    <Autocomplete
-      disablePortal
-      id="combo-box-demo"
-      options={top100Films}
-      sx={{ width: 300 }}
-      renderInput={(params) => <TextField {...params} label="Movie" />}
-    />
+
+    <Grid container spacing={2}>
+      <Grid item xs={15}>
+        <Box style={{ height: 60, }}>
+          <Headboard />
+        </Box>
+      </Grid>
+      <Grid item xs={15}>
+
+        <Box style={{ display: 'flex', justifyContent: 'start', width: '100%' }}>
+
+          <Box style={{marginLeft:'1%', width: '20%' }}>
+
+
+          <TextField
+
+            onChange={onQueryChanged}
+            id="outlined-basic" 
+            label="Outlined" 
+            variant="outlined" 
+            />
+
+          </Box>
+          <Box style={{marginLeft:'1.6%', border: '2px solid #0099CC',borderRadius:10,width:'76%',height:520 }}>
+          <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Dessert (100g serving)</TableCell>
+            <TableCell align="right">Calories</TableCell>
+            <TableCell align="right">Fat&nbsp;(g)</TableCell>
+            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow
+              key={row.label}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {row.label}
+              </TableCell>
+              <TableCell align="right">{row.label}</TableCell>
+              
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+          </Box>
+
+        </Box>
+
+      </Grid>
+    </Grid>
+
+
+
   );
 }
 
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const top100Films = [
   { label: 'The Shawshank Redemption', year: 1994 },
   { label: 'The Godfather', year: 1972 },

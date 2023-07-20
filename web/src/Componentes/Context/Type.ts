@@ -4,7 +4,7 @@ export type Jwt = {
 }
 export type Num = {
 
-    num: number | null
+    num: string | null
    }
    
 export type UserContextType = {
