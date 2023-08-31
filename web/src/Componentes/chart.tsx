@@ -70,7 +70,7 @@ export function Chart() {
 
        <Box style={{display:'flex',justifyContent:'center', width:'100%'}}>
 
-        <Box style={{width:'80%'}}>
+        <Box style={{width:'75%'}}>
 
           <Line options={options} data={data} />
 

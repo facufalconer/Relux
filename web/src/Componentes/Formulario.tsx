@@ -133,7 +133,7 @@ export const DataGridDemo = () => {
         </Box>
       </Grid>
       <Grid item xs={15}>
-        <Box style={{ height: 500 }}>
+        <Box style={{ height: 490 }}>
 
           <DataGrid
             rows={rows1}
