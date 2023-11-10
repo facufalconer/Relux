@@ -10,8 +10,16 @@ interface Props {
 
 export function UsersContextProvider({children}:Props){
     const [jwt,setJwt] = useState(() => window.sessionStorage.getItem('token'))
-    const [num,setNum] = useState("1")
-    return <Context.Provider value={{num,setNum,jwt,setJwt,}}>{children}</Context.Provider>
+    const [userBuscador, setUserBuscador] = useState({
+        id: 0,
+        nombre: '',
+        email: '',
+        estado: '',
+        createdAt: ''
+      })
+      const [usuario, setUsuario] = useState()
+      const [userId, setUserId] = useState(0)
+    return <Context.Provider value={{usuario,setUsuario,userBuscador,setUserBuscador,jwt,setJwt,userId,setUserId}}>{children}</Context.Provider>
 }
 
 export default Context

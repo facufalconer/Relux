@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,6 +13,11 @@ import { Line } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 import { Box, Grid } from '@mui/material';
 import { Headboard } from './Headboard';
+import { useQuery } from 'react-query';
+import UserContext from './Context/UserContext';
+import getUsuariosunico from './servicios/GetUsuarioUnico';
+import { UserContextType } from './Context/Type';
+
 
 ChartJS.register(
   CategoryScale,
@@ -37,27 +42,33 @@ export const options = {
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
-export const data = {
-  labels,
+
+export function Chart() {
+  const {  usuario,} = useContext(UserContext) as UserContextType
+
+  const { data, refetch } = useQuery('usuarios', () =>
+  getUsuariosunico(usuario),
+
+);
+
+const lista = data.map((a:any) => a.estado)
+  const dias =  data.map((a:any) => a.createdAt);
+
+const data1 = {
+  labels: dias,
   datasets: [
     {
       label: 'Dataset 1',
-      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+      data: lista,
       borderColor: 'rgb(255, 99, 132)',
       backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: 'Dataset 2',
-      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
     },
   ],
 };
 
-export function Chart() {
+
+
   return (
 
     <Grid container spacing={2}>
@@ -72,7 +83,7 @@ export function Chart() {
 
         <Box style={{width:'75%'}}>
 
-          <Line options={options} data={data} />
+          <Line options={options} data={data1} />
 
         </Box>
 

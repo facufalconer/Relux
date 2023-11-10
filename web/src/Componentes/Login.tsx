@@ -5,10 +5,12 @@ import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import Button from '@mui/material/Button';
 import bar from '../Imagen/WhatsApp Image 2023-06-14 at 2.56.47 AM.jpeg'
 import { styled } from '@mui/material/styles';
-import { useNavigate } from "react-router-dom";
-import React from "react";
+import React, { useContext } from "react";
 import Reguistrar from "./Reguister";
 import useUser from "./hooks/useUser";
+import UserContext from "./Context/UserContext";
+import { UserContextType } from "./Context/Type";
+
 
 
 const ValidationTextField = styled(TextField)({
@@ -37,8 +39,8 @@ export function Login() {
     password:''
   })
   const { login,isLogged,isLogerLoading,hasLoginError} = useUser()
+  const { usuario } = useContext(UserContext) as UserContextType
  
-
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -47,7 +49,7 @@ export function Login() {
    const email1:string = formRegister.email 
    const password1:string = formRegister.password
    function onSudmit() {
-    login(email1,password1)
+   login(email1,password1)
     }
 
 

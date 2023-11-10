@@ -6,7 +6,7 @@ import { UserContextType } from './Componentes/Context/Type';
 import { AxiosHooks } from './Componentes/hooks/axiosHooks';
 import { DataGridDemo } from './Componentes/Formulario';
 import { Chart } from './Componentes/chart';
-import ComboBox from './Componentes/Buscador';
+
 
 
 
@@ -15,7 +15,6 @@ import ComboBox from './Componentes/Buscador';
 
 function App() {
   const { jwt } = useContext(UserContext) as UserContextType
-
   AxiosHooks(jwt)
 
  
@@ -28,7 +27,7 @@ function App() {
           <Route path='/' element={<Login />} />
           <Route path='/Formulario' element={ <DataGridDemo /> } />
           <Route path='/Grafico' element={<Chart />} />
-          <Route path='/Buscador' element={<ComboBox />} />
+          
 
 
         </Routes> 

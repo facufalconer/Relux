@@ -22,15 +22,6 @@ const auntRouter = (req, res, next) => {
         res.status(409);
         res.send({ error: 'Tu por aqui no pasas' });
     }
-    // if(!req.headers.authorization){
-    //     return res.status(403).send({message:'no tienes autorizacion'})
-    // }
-    // const token = req.headers.authorization.split(' ')[1]
-    // const payload = jwt.decode(token,process.env.TOKEN_SECRET || 'TOKEN')
-    // const token = req.header('auth-token')
-    // if(!token) return res.status(401).json('Access denegado')
-    // const payload = jwt.verify(token,process.env.TOKEN_SECRET || 'TOKEN' )
-    // next()
 };
 exports.auntRouter = auntRouter;
 //# sourceMappingURL=authprivado.js.map

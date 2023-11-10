@@ -15,8 +15,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUsuarios = exports.putUsuarios = exports.postUsuarios = exports.getUsuario = exports.getUsuarios = void 0;
 const usuario_1 = __importDefault(require("../models/usuario"));
 const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const usuarios = yield usuario_1.default.findAll();
-    res.json(usuarios);
+    const { iduser } = req.params;
+    const usuario = yield usuario_1.default.findAll({
+        where: { iduser: iduser }
+    });
+    if (usuario) {
+        res.json(usuario);
+    }
+    else {
+        res.status(404).json({
+            message: 'No existe el usuario con el iduser'
+        });
+    }
 });
 exports.getUsuarios = getUsuarios;
 const getUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -48,7 +58,8 @@ const postUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const usuario = yield usuario_1.default.create({
             nombre: body.nombre,
             email: body.email,
-            estado: body.estado
+            estado: body.estado,
+            iduser: body.iduser
         });
         yield (yield usuario).save();
         res.status(200).json({

@@ -9,9 +9,7 @@ import axios from 'axios'
 import {  useMutation, useQuery } from 'react-query'
 import UserContext from './Context/UserContext';
 import { UserContextType } from './Context/Type';
-import UpdateUsuario from './servecios/UpdateUsuario';
-
-
+import UpdateUsuario from './servicios/UpdateUsuario';
 
 
 interface IFromValue {

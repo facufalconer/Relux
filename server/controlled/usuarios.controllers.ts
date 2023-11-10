@@ -2,9 +2,20 @@ import { Request,Response } from "express"
 import Usuario from "../models/usuario"
 
 export const getUsuarios = async(req:Request,res:Response)=> {
-    const usuarios = await Usuario.findAll()
-    
-    res.json(usuarios)
+   const {iduser} = req.params;
+   const usuario = await Usuario.findAll({
+  
+ 
+      where: { iduser: iduser }
+      })
+      
+   if(usuario) {
+    res.json(usuario)
+   }else{
+    res.status(404).json({
+        message:'No existe el usuario con el iduser'
+    })
+   }
    
 }
 
@@ -38,7 +49,8 @@ export const postUsuarios = async(req:Request,res:Response)=> {
      const usuario = await Usuario.create({
         nombre:body.nombre,
         email:body.email,
-        estado:body.estado
+        estado:body.estado,
+        iduser:body.iduser
      })
    
      await(await usuario).save();

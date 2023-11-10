@@ -4,14 +4,28 @@ export type Jwt = {
 }
 export type Num = {
 
-    num: string | null
+    id: number,
+    nombre: string,
+    email: string,
+    estado: string,
+    createdAt: string
    }
+   export type Usuario = {
+    emailUser:string
+   }
+   export type IdUser = {
+    iduser:any | null
    
+   }
 export type UserContextType = {
-    num: Num
-    setNum:(value:Num) => void
+    userBuscador: Num
+    setUserBuscador:(value:Num) => void
     jwt: Jwt
     setJwt:(value:Jwt) => void
+    usuario: Usuario
+    setUsuario: (value:Usuario) => void
+    userId:IdUser
+    setUserId:(value:IdUser ) => void
 }
 
 

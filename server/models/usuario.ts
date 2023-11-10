@@ -11,6 +11,9 @@ const Usuario = db.define('usuario',{
     },
     estado:{
         type:DataTypes.BOOLEAN
+    },
+    iduser:{
+        type:DataTypes.BOOLEAN
     }
 })
 export default Usuario

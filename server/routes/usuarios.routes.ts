@@ -4,8 +4,8 @@ import { auntRouter } from "../middlewares/authprivado";
 
 const router = Router();
 
-router.get('/',auntRouter,getUsuarios)
-router.get('/:id',auntRouter,getUsuario)
+router.get('/:iduser',getUsuarios)
+router.get('/getedit/:id',auntRouter,getUsuario)
 router.post('/',auntRouter,postUsuarios)
 router.put('/:id',auntRouter,putUsuarios)
 router.delete('/:id',auntRouter,deleteUsuarios)

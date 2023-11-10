@@ -14,6 +14,9 @@ const Usuario = connect_1.default.define('usuario', {
     },
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN
+    },
+    iduser: {
+        type: sequelize_1.DataTypes.BOOLEAN
     }
 });
 exports.default = Usuario;

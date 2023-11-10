@@ -50,7 +50,7 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.signup = signup;
 const signip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { password, email } = req.body;
+    const { id, password, email } = req.body;
     try {
         const existeEmail = yield register_1.default.findOne({
             where: {
@@ -69,8 +69,11 @@ const signip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 message: 'contraseña incorrecta'
             });
         }
-        const token = jsonwebtoken_1.default.sign({ _id: existeEmail }, process.env.TOKEN_SECRET || 'TOKEN', { expiresIn: 60 * 60 * 24 });
+        const token = jsonwebtoken_1.default.sign({ _id: existeEmail }, process.env.TOKEN_SECRET || 'TOKEN', {
+            expiresIn: 60 * 60 * 24
+        });
         res.status(200).json({
+            id,
             token,
             message: 'usuario correcto'
         });
@@ -80,14 +83,24 @@ const signip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             message: 'por favor hable con el administrador'
         });
     }
+    // passport.authenticate('local')(req, res, () => {
+    //    res.redirect('/'); // Redirige al perfil del usuario
+    //  });
 });
 exports.signip = signip;
 const profile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const register = yield register_1.default.findAll();
-    res.json(register);
+    const { email } = req.params;
+    const register = yield register_1.default.findOne({
+        where: { email: email }
+    });
+    if (register) {
+        res.json(register);
+    }
+    else {
+        res.status(404).json({
+            message: 'No existe el usuario con el email'
+        });
+    }
 });
 exports.profile = profile;
-function save() {
-    throw new Error("Function not implemented.");
-}
 //# sourceMappingURL=auth.controlled.js.map
